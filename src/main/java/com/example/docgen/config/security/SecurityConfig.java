@@ -1,4 +1,4 @@
-package com.example.docgen.config;
+package com.example.docgen.config.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,9 +9,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.example.docgen.config.security.JwtAuthenticationFilter;
-import com.example.docgen.exceptions.JwtAccessDeniedHandler;
-import com.example.docgen.exceptions.JwtAuthenticationEntryPoint;
 import com.example.docgen.services.UserService;
 
 @Configuration

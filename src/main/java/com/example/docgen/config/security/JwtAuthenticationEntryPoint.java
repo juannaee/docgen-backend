@@ -1,4 +1,4 @@
-package com.example.docgen.exceptions;
+package com.example.docgen.config.security;
 
 import java.io.IOException;
 import java.time.Instant;
@@ -9,6 +9,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 
+import com.example.docgen.exceptions.StandardError;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
