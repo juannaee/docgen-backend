@@ -70,7 +70,7 @@ public class StandardError {
 		this.path = path;
 	}
 
-	public List<ValidationError> getValidationErros() {
+	public List<ValidationError> getValidationErrors() {
 		return validationErrors;
 	}
 

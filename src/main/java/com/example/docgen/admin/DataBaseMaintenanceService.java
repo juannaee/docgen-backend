@@ -28,7 +28,7 @@ public class DataBaseMaintenanceService {
 		String dataBaseName = getDatabaseName();
 
 		if (!"docgenDev".equalsIgnoreCase(dataBaseName)) {
-			throw new SecurityException("Limpeza permitida apenas no banco docgentest. Banco atual: " + dataBaseName);
+			throw new SecurityException("Limpeza permitida apenas no banco docgenDev. Banco atual: " + dataBaseName);
 		}
 
 		userRepository.deleteAll();

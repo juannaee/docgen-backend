@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.docgen.dto.user.BatchUserInsertResponseDTO;
@@ -20,67 +21,74 @@ import jakarta.validation.Valid;
 @RequestMapping(value = "/users")
 public class UserController {
 
-    // region Dependencies
-    private final UserService userService;
-    private final UserMapper userMapper;
+	// region Dependencies
+	private final UserService userService;
+	private final UserMapper userMapper;
 
-    public UserController(UserService userService, UserMapper userMapper) {
-        this.userService = userService;
-        this.userMapper = userMapper;
-    }
-    // endregion
+	public UserController(UserService userService, UserMapper userMapper) {
+		this.userService = userService;
+		this.userMapper = userMapper;
+	}
+	// endregion
 
-    // region GET Methods
+	// region GET Methods
 
-    @GetMapping
-    public ResponseEntity<List<UserResponseDTO>> findAll() {
-        List<User> users = userService.findAll();
-        return ResponseEntity.ok(userMapper.toDtoList(users));
-    }
+	@GetMapping
+	public ResponseEntity<List<UserResponseDTO>> findAll() {
+		List<User> users = userService.findAll();
+		return ResponseEntity.ok(userMapper.toDtoList(users));
+	}
 
-    @GetMapping("/{id}")
-    public ResponseEntity<UserResponseDTO> findById(@PathVariable Long id) {
-        User user = userService.findById(id);
-        return ResponseEntity.ok(userMapper.toDto(user));
-    }
+	@GetMapping("/{id}")
+	public ResponseEntity<UserResponseDTO> findById(@PathVariable Long id) {
+		User user = userService.findById(id);
+		return ResponseEntity.ok(userMapper.toDto(user));
+	}
 
-    // endregion
+	@GetMapping("/me")
+	public ResponseEntity<String> getCurrentUser(Authentication authentication) {
 
-    // region POST Methods
+		return ResponseEntity.ok("Usuário logado: " + authentication.getName());
 
-    @PostMapping
-    public ResponseEntity<UserResponseDTO> insertUser(@RequestBody @Valid UserRequestDTO dto) {
-        User createdUser = userService.insertUser(dto);
-        return ResponseEntity.ok(userMapper.toDto(createdUser));
-    }
+	}
 
-    @PostMapping("/batch")
-    public ResponseEntity<BatchUserInsertResponseDTO> insertMultiplerUsers(
-            @RequestBody List<com.example.docgen.dto.user.UserRequestDTO> userDTOs) {
+	// endregion
 
-        BatchUserInsertResponseDTO result = userService.insertUsers(userDTOs);
-        return ResponseEntity.status(HttpStatus.MULTI_STATUS).body(result);
-    }
+	// region POST Methods
 
-    // endregion
+	@PostMapping
+	public ResponseEntity<UserResponseDTO> insertUser(@RequestBody @Valid UserRequestDTO dto) {
+		User createdUser = userService.insertUser(dto);
+		return ResponseEntity.ok(userMapper.toDto(createdUser));
+	}
 
-    // region PUT Method
+	@PostMapping("/batch")
+	public ResponseEntity<BatchUserInsertResponseDTO> insertMultiplerUsers(
+			@RequestBody List<com.example.docgen.dto.user.UserRequestDTO> userDTOs) {
 
-    @PutMapping("/{id}")
-    public ResponseEntity<UserResponseDTO> updateUser(@PathVariable Long id, @RequestBody @Valid UserUpdateDTO dto) {
-        User updateUser = userService.updateUser(id, dto);
-        return ResponseEntity.ok(userMapper.toDto(updateUser));
-    }
+		BatchUserInsertResponseDTO result = userService.insertUsers(userDTOs);
+		return ResponseEntity.status(HttpStatus.MULTI_STATUS).body(result);
+	}
 
-    // endregion
+	// endregion
 
-    // region DELETE Method
+	// region PUT Method
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<UserResponseDTO> deleteUser(@PathVariable Long id) {
-        userService.deleteUser(id);
-        return ResponseEntity.noContent().build();
-    }
+	@PutMapping("/{id}")
+	public ResponseEntity<UserResponseDTO> updateUser(@PathVariable Long id, @RequestBody @Valid UserUpdateDTO dto) {
+		User updateUser = userService.updateUser(id, dto);
+		return ResponseEntity.ok(userMapper.toDto(updateUser));
+	}
 
-    // endregion
+	// endregion
+
+	// region DELETE Method
+
+	@DeleteMapping("/{id}")
+	public ResponseEntity<UserResponseDTO> deleteUser(@PathVariable Long id) {
+		userService.deleteUser(id);
+		return ResponseEntity.noContent().build();
+	}
+
+	// endregion
 }

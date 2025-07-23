@@ -10,7 +10,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.example.docgen.config.security.JwtAuthenticationFilter;
-
+import com.example.docgen.exceptions.JwtAccessDeniedHandler;
+import com.example.docgen.exceptions.JwtAuthenticationEntryPoint;
 import com.example.docgen.services.UserService;
 
 @Configuration
@@ -21,9 +22,15 @@ public class SecurityConfig {
 
 	private final JwtAuthenticationFilter jwtAuthFilter;
 
-	public SecurityConfig(UserService userService, JwtAuthenticationFilter jwtAuthenticationFilter) {
+	private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
+	private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+
+	public SecurityConfig(UserService userService, JwtAuthenticationFilter jwtAuthenticationFilter,
+			JwtAccessDeniedHandler jwtAccessDeniedHandler, JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint) {
 		this.userService = userService;
 		this.jwtAuthFilter = jwtAuthenticationFilter;
+		this.jwtAccessDeniedHandler = jwtAccessDeniedHandler;
+		this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
 
 	}
 
@@ -39,6 +46,8 @@ public class SecurityConfig {
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.authorizeHttpRequests(
 						auth -> auth.requestMatchers("/auth/login").permitAll().anyRequest().authenticated())
+				.exceptionHandling(exception -> exception.authenticationEntryPoint(jwtAuthenticationEntryPoint)
+						.accessDeniedHandler(jwtAccessDeniedHandler))
 				.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
 		return http.build();

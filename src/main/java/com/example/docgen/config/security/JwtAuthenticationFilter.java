@@ -3,6 +3,7 @@ package com.example.docgen.config.security;
 import java.io.IOException;
 
 import org.springframework.http.HttpHeaders;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -34,39 +35,39 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 
-		// Pegando valor do cabeçalho (teste pra ver se vai da certo)
-		final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
-		final String jwt;
-		final String username;
-
-		// Se não tiver Bearer no inicio passa direto ( Se tiver vazio também )
-		if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+		String path = request.getServletPath();
+		if (path.equals("/auth/login")) {
 			filterChain.doFilter(request, response);
 			return;
 		}
 
-		// Extraindo o token
-		jwt = authHeader.substring(7); // Remover o Barear
-		username = jwtService.extractUsername(jwt); // pega o email ( username )
+		final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
 
-		// Se tiver usuário e ainda não está autenticado
-		if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+		// Verifica se o token existe e está bem formado
+		if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+			throw new BadCredentialsException("Token ausente ou mal formado");
+		}
+
+		final String jwt = authHeader.substring(7); // Remove "Bearer "
+		final String username = jwtService.extractUsername(jwt);
+
+		if (username == null) {
+			throw new BadCredentialsException("Token inválido");
+		}
+
+		// Só autentica se ainda não houver um usuário autenticado no contexto
+		if (SecurityContextHolder.getContext().getAuthentication() == null) {
 			var user = userRepository.findByEmail(username).orElse(null);
 
-			// puxando do service metodo de validação
-			if (user != null && jwtService.isTokenValid(jwt, user)) {
-				var authToken = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
-
-				authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
-				// Autentica no contexto do Spring
-				SecurityContextHolder.getContext().setAuthentication(authToken);
+			if (user == null || !jwtService.isTokenValid(jwt, user)) {
+				throw new BadCredentialsException("Token inválido");
 			}
 
+			var authToken = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+			authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+			SecurityContextHolder.getContext().setAuthentication(authToken);
 		}
 
 		filterChain.doFilter(request, response);
-
 	}
-
 }
