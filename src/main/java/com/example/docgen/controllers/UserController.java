@@ -46,9 +46,15 @@ public class UserController {
 	}
 
 	@GetMapping("/me")
-	public ResponseEntity<String> getCurrentUser(Authentication authentication) {
+	public ResponseEntity<String> getCurrentUser(Authentication authentication,
+			@RequestHeader(value = "Authorization", required = false) String authorizationHeader) {
 
-		return ResponseEntity.ok("Usuário logado: " + authentication.getName());
+		String token = null;
+
+		if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+			token = authorizationHeader.substring(7);
+		}
+		return ResponseEntity.ok("Usuário logado: " + authentication.getName() + "\n" + "Token: " + token);
 
 	}
 
