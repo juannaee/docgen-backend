@@ -1,7 +1,5 @@
 package com.example.docgen.dto.user;
 
-
-
 public class UserResponseDTO {
 
 	private Long id;

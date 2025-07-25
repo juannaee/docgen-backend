@@ -36,6 +36,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			throws ServletException, IOException {
 
 		String path = request.getServletPath();
+
+		if (path.equals("http://127.0.0.1:5500/")) {
+			filterChain.doFilter(request, response);
+			return;
+		}
+
 		if (path.equals("/auth/login")) {
 			filterChain.doFilter(request, response);
 			return;

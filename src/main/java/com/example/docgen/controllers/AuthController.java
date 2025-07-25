@@ -1,5 +1,7 @@
 package com.example.docgen.controllers;
 
+import java.util.Map;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -30,7 +32,7 @@ public class AuthController {
 	}
 
 	@PostMapping("/login")
-	public ResponseEntity<String> login(@RequestBody @Valid LoginRequestDTO request) {
+	public ResponseEntity<?> login(@RequestBody @Valid LoginRequestDTO request) {
 
 		// Cria o "pacote de login" com o email e senha fornecidos
 		UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(request.getEmail(),
@@ -45,7 +47,7 @@ public class AuthController {
 		// gerando o token jwt com base nesse usuário
 		String jwt = jwtService.generateToken(user);
 
-		return ResponseEntity.ok(jwt);
+		return ResponseEntity.ok(Map.of("token", jwt));
 
 	}
 
