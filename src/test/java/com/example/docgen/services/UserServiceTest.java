@@ -32,7 +32,7 @@ public class UserServiceTest {
 	void whenFindByIdExistingUser_thenReturnUser() {
 		Long id = 1l;
 		User user = new User(id, "testejunit", "testejunint@", "testejunit", LocalDate.of(1990, 1, 1), "phone", "cpf",
-				UserRole.USER);
+				UserRole.USER, false);
 
 		// quando userRepository.findById(id) for chamado, retorna optional com user
 		when(userRepository.findById(id)).thenReturn(Optional.of(user));

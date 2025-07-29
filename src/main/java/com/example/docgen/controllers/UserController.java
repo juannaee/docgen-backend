@@ -1,11 +1,21 @@
 package com.example.docgen.controllers;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.example.docgen.dto.user.BatchUserInsertResponseDTO;
 import com.example.docgen.dto.user.UserRequestDTO;
@@ -84,6 +94,15 @@ public class UserController {
 	public ResponseEntity<UserResponseDTO> updateUser(@PathVariable Long id, @RequestBody @Valid UserUpdateDTO dto) {
 		User updateUser = userService.updateUser(id, dto);
 		return ResponseEntity.ok(userMapper.toDto(updateUser));
+	}
+
+	@PutMapping("/admin/reset-password/{id}")
+	@PreAuthorize("hasRole('ADMIN')") // garante que só admin pode chamar
+	public ResponseEntity<?> resetPassword(@PathVariable Long id) {
+		userService.resetPassword(id);
+		return ResponseEntity
+				.ok(Map.of("message", "Senha redefinida com sucesso e campo passwordResetRequired Ativado"));
+
 	}
 
 	// endregion

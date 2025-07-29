@@ -45,11 +45,14 @@ public class User implements Serializable, UserDetails {
 	@Column(nullable = false)
 	private UserRole role = UserRole.USER;
 
+	@Column(nullable = false)
+	private Boolean passwordResetRequired = false;
+
 	public User() {
 	}
 
 	public User(Long id, String name, String email, String password, LocalDate birthDate, String phone, String cpf,
-			UserRole role) {
+			UserRole role, Boolean passwordResetRequired) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -59,6 +62,7 @@ public class User implements Serializable, UserDetails {
 		this.phone = phone;
 		this.cpf = cpf;
 		this.role = role;
+		this.passwordResetRequired = passwordResetRequired;
 	}
 
 	// region UserDetails
@@ -112,6 +116,14 @@ public class User implements Serializable, UserDetails {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public Boolean getPasswordResetRequired() {
+		return passwordResetRequired;
+	}
+
+	public void setPasswordResetRequired(Boolean passwordResetRequired) {
+		this.passwordResetRequired = passwordResetRequired;
 	}
 
 	public String getName() {

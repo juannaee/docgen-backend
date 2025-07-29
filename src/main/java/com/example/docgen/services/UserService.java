@@ -67,15 +67,25 @@ public class UserService implements UserDetailsService {
 		}
 		return userRepository.save(user);
 	}
-	
+
 	public void deleteUser(Long id) {
-		if(!userRepository.existsById(id)) {
+		if (!userRepository.existsById(id)) {
 			throw new ResourceNotFoundException("Usuário com ID: " + id + "não encontrado");
 		}
 		userRepository.deleteById(id);
 	}
-	
-	
+
+	// Logica pra resetar a senha (fazendo com que o username vire a senha email == senha
+	public void resetPassword(Long userId) {
+		User user = findById(userId);
+
+		String newPassword = user.getEmail();
+		user.setPassword(passwordEncoder.encode(newPassword));
+		user.setPasswordResetRequired(true);
+		
+		
+		userRepository.save(user);
+	}
 
 	// endregion
 
