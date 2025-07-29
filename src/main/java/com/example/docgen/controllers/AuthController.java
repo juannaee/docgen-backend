@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.docgen.dto.LoginRequestDTO;
+import com.example.docgen.entities.User;
 import com.example.docgen.services.JwtService;
 
 import jakarta.validation.Valid;
@@ -42,12 +43,13 @@ public class AuthController {
 		Authentication authentication = authenticationManager.authenticate(authToken);
 
 		// Depois de autenticar pega os dados do usuário
-		UserDetails user = (UserDetails) authentication.getPrincipal();
+		User user = (User) authentication.getPrincipal();
 
 		// gerando o token jwt com base nesse usuário
+
 		String jwt = jwtService.generateToken(user);
 
-		return ResponseEntity.ok(Map.of("token", jwt));
+		return ResponseEntity.ok(Map.of("token", jwt, "passwordResetRequired", user.getPasswordResetRequired()));
 
 	}
 
