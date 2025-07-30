@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.example.docgen.config.security.CustomUserDetails;
 import com.example.docgen.dto.user.BatchUserInsertResponseDTO;
 import com.example.docgen.dto.user.FailedUserDTO;
 import com.example.docgen.dto.user.UserRequestDTO;
@@ -75,15 +76,15 @@ public class UserService implements UserDetailsService {
 		userRepository.deleteById(id);
 	}
 
-	// Logica pra resetar a senha (fazendo com que o username vire a senha email == senha
+	// Logica pra resetar a senha (fazendo com que o username vire a senha email ==
+	// senha
 	public void resetPassword(Long userId) {
 		User user = findById(userId);
 
 		String newPassword = user.getEmail();
 		user.setPassword(passwordEncoder.encode(newPassword));
 		user.setPasswordResetRequired(true);
-		
-		
+
 		userRepository.save(user);
 	}
 
@@ -136,8 +137,10 @@ public class UserService implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		System.out.println("Buscando usuário por email: " + email);
-		return userRepository.findByEmail(email)
+		User user = userRepository.findByEmail(email)
 				.orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
+
+		return new CustomUserDetails(user);
 	}
 
 	// endregion

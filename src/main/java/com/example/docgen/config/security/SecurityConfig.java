@@ -15,6 +15,9 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import com.example.docgen.config.security.jwt.JwtAccessDeniedHandler;
+import com.example.docgen.config.security.jwt.JwtAuthenticationEntryPoint;
+import com.example.docgen.config.security.jwt.JwtAuthenticationFilter;
 import com.example.docgen.services.UserService;
 
 @Configuration

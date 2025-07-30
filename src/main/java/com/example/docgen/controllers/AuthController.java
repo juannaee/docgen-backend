@@ -6,12 +6,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
+import com.example.docgen.config.TestConfig;
+import com.example.docgen.config.security.CustomUserDetails;
 import com.example.docgen.dto.LoginRequestDTO;
 import com.example.docgen.entities.User;
 import com.example.docgen.services.JwtService;
@@ -24,12 +24,15 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AuthController {
 
+    private final TestConfig testConfig;
+
 	private final AuthenticationManager authenticationManager;
 	private final JwtService jwtService;
 
-	public AuthController(AuthenticationManager authenticationManager, JwtService jwtService) {
+	public AuthController(AuthenticationManager authenticationManager, JwtService jwtService, TestConfig testConfig) {
 		this.authenticationManager = authenticationManager;
 		this.jwtService = jwtService;
+		this.testConfig = testConfig;
 	}
 
 	@PostMapping("/login")
@@ -43,13 +46,16 @@ public class AuthController {
 		Authentication authentication = authenticationManager.authenticate(authToken);
 
 		// Depois de autenticar pega os dados do usuário
-		User user = (User) authentication.getPrincipal();
+		CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+		User user = userDetails.getUser();
 
+		System.out.println(user.getPasswordResetRequired());
+		
 		// gerando o token jwt com base nesse usuário
 
-		String jwt = jwtService.generateToken(user);
+		String jwt = jwtService.generateToken(userDetails);
 
-		return ResponseEntity.ok(Map.of("token", jwt, "passwordResetRequired", user.getPasswordResetRequired()));
+		return ResponseEntity.ok(Map.of("token", jwt));
 
 	}
 

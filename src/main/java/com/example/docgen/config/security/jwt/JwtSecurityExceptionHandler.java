@@ -1,4 +1,4 @@
-package com.example.docgen.config.security;
+package com.example.docgen.config.security.jwt;
 
 import java.time.Instant;
 
