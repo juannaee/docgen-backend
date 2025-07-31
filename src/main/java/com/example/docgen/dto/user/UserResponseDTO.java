@@ -7,18 +7,21 @@ public class UserResponseDTO {
 	private String email;
 	private String phone;
 	private String role;
+	private Boolean passwordResetRequired;
 
 	public UserResponseDTO() {
 
 	}
 
-	public UserResponseDTO(Long id, String name, String email, String phone, String role) {
+	public UserResponseDTO(Long id, String name, String email, String phone, String role,
+			Boolean passwordResetRequired) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.email = email;
 		this.phone = phone;
 		this.role = role;
+		this.passwordResetRequired = passwordResetRequired;
 	}
 
 	public Long getId() {
@@ -59,6 +62,14 @@ public class UserResponseDTO {
 
 	public void setRole(String role) {
 		this.role = role;
+	}
+
+	public Boolean getPasswordResetRequired() {
+		return passwordResetRequired;
+	}
+
+	public void setPasswordResetRequired(Boolean passwordResetRequired) {
+		this.passwordResetRequired = passwordResetRequired;
 	}
 
 }

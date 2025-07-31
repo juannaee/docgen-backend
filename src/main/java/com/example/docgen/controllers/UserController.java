@@ -1,6 +1,5 @@
 package com.example.docgen.controllers;
 
-
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -102,8 +101,11 @@ public class UserController {
 	@PreAuthorize("hasRole('ADMIN')") // garante que só admin pode chamar
 	public ResponseEntity<?> resetPassword(@PathVariable Long id) {
 		userService.resetPassword(id);
-		return ResponseEntity
-				.ok(Map.of("message", "Senha redefinida com sucesso e campo passwordResetRequired Ativado"));
+		User resetUser = userService.findById(id);
+		Map<String, Object> response = new LinkedHashMap<>();
+		response.put("message", "Senha redefinida com sucesso e campo passwordResetRequired Ativado");
+		response.put("reset user password", userMapper.toDto(resetUser));
+		return ResponseEntity.ok(response);
 
 	}
 

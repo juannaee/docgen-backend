@@ -17,7 +17,7 @@ public class UserMapperDTO {
 	// Converte uma entidade em um dto
 	public static UserResponseDTO toDto(User user) {
 		return new UserResponseDTO(user.getId(), user.getName(), user.getEmail(), user.getPhone(),
-				user.getRole().getRoleName());
+				user.getRole().getRoleName(), user.getPasswordResetRequired());
 	}
 
 	// Converte uma lista de usuarios em uma lista DTO
