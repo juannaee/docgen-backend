@@ -24,7 +24,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AuthController {
 
-    private final TestConfig testConfig;
+	@SuppressWarnings("unused")
+	private final TestConfig testConfig;
 
 	private final AuthenticationManager authenticationManager;
 	private final JwtService jwtService;
@@ -50,12 +51,12 @@ public class AuthController {
 		User user = userDetails.getUser();
 
 		System.out.println(user.getPasswordResetRequired());
-		
+
 		// gerando o token jwt com base nesse usuário
 
 		String jwt = jwtService.generateToken(userDetails);
 
-		return ResponseEntity.ok(Map.of("token", jwt));
+		return ResponseEntity.ok(Map.of("token", jwt, "passwordResetRequired", user.getPasswordResetRequired()));
 
 	}
 

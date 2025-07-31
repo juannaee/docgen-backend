@@ -32,7 +32,7 @@ public class UserRequestDTO {
 	private String phone;
 
 	
-	
+	@NotBlank(message = "O CPF é obrigatório")
 	private String cpf;
 	
 	

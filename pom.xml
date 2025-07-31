@@ -67,7 +67,6 @@
 			<scope>runtime</scope>
 		</dependency>
 
-
 		<!-- MySQL -->
 		<dependency>
 			<groupId>com.mysql</groupId>

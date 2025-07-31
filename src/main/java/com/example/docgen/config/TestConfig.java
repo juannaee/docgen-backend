@@ -36,6 +36,7 @@ public class TestConfig {
 				user.setPhone("81996272911");
 				user.setBirthDate(LocalDate.of(2001, 11, 27));
 				user.setRole(UserRole.ADMIN);
+				user.setPasswordResetRequired(false);
 
 				userRepository.save(user);
 				System.out.println("Usuário admin criado com sucesso.");
@@ -45,5 +46,6 @@ public class TestConfig {
 		};
 
 	}
+	
 
 }

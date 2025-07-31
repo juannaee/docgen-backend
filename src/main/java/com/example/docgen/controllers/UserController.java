@@ -1,5 +1,7 @@
 package com.example.docgen.controllers;
 
+
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -110,9 +112,13 @@ public class UserController {
 	// region DELETE Method
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<UserResponseDTO> deleteUser(@PathVariable Long id) {
+	public ResponseEntity<?> deleteUser(@PathVariable Long id) {
+		User userDeleted = userService.findById(id);
 		userService.deleteUser(id);
-		return ResponseEntity.noContent().build();
+		Map<String, Object> response = new LinkedHashMap<>();
+		response.put("message", "Usuário deletado com sucesso.");
+		response.put("userDeleted", userMapper.toDto(userDeleted));
+		return ResponseEntity.ok(response);
 	}
 
 	// endregion

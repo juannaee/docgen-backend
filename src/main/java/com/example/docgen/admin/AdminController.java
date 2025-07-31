@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/admin/dev-tools")
-@Profile("dev")
+@Profile("test")
 public class AdminController {
 
 	private final DataBaseMaintenanceService maintenanceService;

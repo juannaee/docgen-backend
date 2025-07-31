@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import com.example.docgen.repositories.UserRepository;
 
 @Service
-@Profile("dev")
+@Profile("test")
 public class DataBaseMaintenanceService {
 
 	private final String token = "DELETE_TEST_DATA";
@@ -27,8 +27,8 @@ public class DataBaseMaintenanceService {
 
 		String dataBaseName = getDatabaseName();
 
-		if (!"docgenDev".equalsIgnoreCase(dataBaseName)) {
-			throw new SecurityException("Limpeza permitida apenas no banco docgenDev. Banco atual: " + dataBaseName);
+		if (!"docgenTest".equalsIgnoreCase(dataBaseName)) {
+			throw new SecurityException("Limpeza permitida apenas no banco docgenTest. Banco atual: " + dataBaseName);
 		}
 
 		userRepository.deleteAll();

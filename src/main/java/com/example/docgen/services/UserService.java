@@ -85,6 +85,7 @@ public class UserService implements UserDetailsService {
 		user.setPassword(passwordEncoder.encode(newPassword));
 		user.setPasswordResetRequired(true);
 
+	
 		userRepository.save(user);
 	}
 
