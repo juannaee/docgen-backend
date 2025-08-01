@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.example.docgen.config.security.CustomUserDetails;
 import com.example.docgen.dto.user.BatchUserInsertResponseDTO;
 import com.example.docgen.dto.user.FailedUserDTO;
+import com.example.docgen.dto.user.PasswordResetRequestDTO;
 import com.example.docgen.dto.user.UserRequestDTO;
 import com.example.docgen.dto.user.UserResponseDTO;
 import com.example.docgen.dto.user.UserUpdateDTO;
@@ -30,11 +31,14 @@ public class UserService implements UserDetailsService {
 	private final UserRepository userRepository;
 	private final PasswordEncoder passwordEncoder;
 	private final UserMapper userMapper;
+	private final JwtService jwtService;
 
-	public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, UserMapper userMapper) {
+	public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, UserMapper userMapper,
+			JwtService jwtService) {
 		this.passwordEncoder = passwordEncoder;
 		this.userRepository = userRepository;
 		this.userMapper = userMapper;
+		this.jwtService = jwtService;
 	}
 	// endregion
 
@@ -85,7 +89,21 @@ public class UserService implements UserDetailsService {
 		user.setPassword(passwordEncoder.encode(newPassword));
 		user.setPasswordResetRequired(true);
 
-	
+		userRepository.save(user);
+	}
+
+	// serviço de nova senha após resete da mesma
+	public void newPassword(String token, PasswordResetRequestDTO request) {
+		if (!request.getNewPassword().equals(request.getConfirmPassword())) {
+			throw new IllegalArgumentException("As senhas não coincidem");
+		}
+
+		String userEmail = jwtService.extractUsername(token);
+		User user = userRepository.findByEmail(userEmail)
+				.orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
+
+		user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+		user.setPasswordResetRequired(false);
 		userRepository.save(user);
 	}
 

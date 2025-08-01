@@ -8,13 +8,17 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.example.docgen.config.TestConfig;
 import com.example.docgen.config.security.CustomUserDetails;
 import com.example.docgen.dto.LoginRequestDTO;
+import com.example.docgen.dto.user.PasswordResetRequestDTO;
 import com.example.docgen.entities.User;
 import com.example.docgen.services.JwtService;
+import com.example.docgen.services.UserService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -29,11 +33,14 @@ public class AuthController {
 
 	private final AuthenticationManager authenticationManager;
 	private final JwtService jwtService;
+	private final UserService userService;
 
-	public AuthController(AuthenticationManager authenticationManager, JwtService jwtService, TestConfig testConfig) {
+	public AuthController(AuthenticationManager authenticationManager, JwtService jwtService, TestConfig testConfig,
+			UserService userService) {
 		this.authenticationManager = authenticationManager;
 		this.jwtService = jwtService;
 		this.testConfig = testConfig;
+		this.userService = userService;
 	}
 
 	@PostMapping("/login")
@@ -57,6 +64,15 @@ public class AuthController {
 		String jwt = jwtService.generateToken(userDetails);
 
 		return ResponseEntity.ok(Map.of("token", jwt, "passwordResetRequired", user.getPasswordResetRequired()));
+
+	}
+
+	@PostMapping("/new-password")
+	public ResponseEntity<?> resetPassword(@RequestBody PasswordResetRequestDTO request,
+			@RequestHeader("Authorization") String authHeader) {
+		String token = authHeader.replace("Bearer ", "");
+		userService.newPassword(token, request);
+		return ResponseEntity.ok("Senha atualizado com sucesso");
 
 	}
 
