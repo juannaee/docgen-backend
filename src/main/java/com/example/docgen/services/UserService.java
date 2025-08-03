@@ -107,6 +107,15 @@ public class UserService implements UserDetailsService {
 		userRepository.save(user);
 	}
 
+	// serviço que retorna as informações do usuario
+
+	public UserResponseDTO getCurrentUser(String email) {
+		User user = userRepository.findByEmail(email)
+				.orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado: " + email));
+		return new UserResponseDTO(user.getId(), user.getName(), user.getEmail(), user.getPhone(),
+				user.getRole().name(), user.getPasswordResetRequired());
+	}
+
 	// endregion
 
 	// region Batch Insert
@@ -163,4 +172,5 @@ public class UserService implements UserDetailsService {
 	}
 
 	// endregion
+
 }

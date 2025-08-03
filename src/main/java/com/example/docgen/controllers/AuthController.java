@@ -63,7 +63,8 @@ public class AuthController {
 
 		String jwt = jwtService.generateToken(userDetails);
 
-		return ResponseEntity.ok(Map.of("token", jwt, "passwordResetRequired", user.getPasswordResetRequired()));
+		return ResponseEntity.ok(Map.of("token", jwt, "passwordResetRequired", user.getPasswordResetRequired(),
+				"userRole", user.getRole(), "username", user.getName(), "email", user.getEmail()));
 
 	}
 

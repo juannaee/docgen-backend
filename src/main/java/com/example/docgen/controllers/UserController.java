@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -57,15 +56,11 @@ public class UserController {
 	}
 
 	@GetMapping("/me")
-	public ResponseEntity<String> getCurrentUser(Authentication authentication,
-			@RequestHeader(value = "Authorization", required = false) String authorizationHeader) {
+	public ResponseEntity<UserResponseDTO> getCurrentUser(Authentication authentication) {
 
-		String token = null;
-
-		if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
-			token = authorizationHeader.substring(7);
-		}
-		return ResponseEntity.ok("Usuário logado: " + authentication.getName() + "\n" + "Token: " + token);
+		String email = authentication.getName();
+		UserResponseDTO userDTO = userService.getCurrentUser(email);
+		return ResponseEntity.ok(userDTO);
 
 	}
 

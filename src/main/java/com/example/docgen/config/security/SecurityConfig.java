@@ -1,6 +1,5 @@
 package com.example.docgen.config.security;
 
-
 import java.util.List;
 
 import org.springframework.context.annotation.Bean;
@@ -52,7 +51,9 @@ public class SecurityConfig {
 		http.cors(cors -> cors.configurationSource(corsConfigurationSource())).csrf(crsf -> crsf.disable())
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.authorizeHttpRequests(
-						auth -> auth.requestMatchers("/auth/login").permitAll().anyRequest().authenticated())
+						auth -> auth.requestMatchers("/auth/login").permitAll().requestMatchers("/auth/new-password")
+								.authenticated().requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**")
+								.permitAll().anyRequest().authenticated())
 				.exceptionHandling(exception -> exception.authenticationEntryPoint(jwtAuthenticationEntryPoint)
 						.accessDeniedHandler(jwtAccessDeniedHandler))
 				.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
