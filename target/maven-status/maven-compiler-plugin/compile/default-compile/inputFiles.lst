@@ -1,10 +1,11 @@
 G:\Meu Drive\Projetos Java\Docgen\src\main\java\com\example\docgen\admin\AdminController.java
 G:\Meu Drive\Projetos Java\Docgen\src\main\java\com\example\docgen\admin\DataBaseMaintenanceService.java
 G:\Meu Drive\Projetos Java\Docgen\src\main\java\com\example\docgen\config\AppConfig.java
-G:\Meu Drive\Projetos Java\Docgen\src\main\java\com\example\docgen\config\security\JwtAccessDeniedHandler.java
-G:\Meu Drive\Projetos Java\Docgen\src\main\java\com\example\docgen\config\security\JwtAuthenticationEntryPoint.java
-G:\Meu Drive\Projetos Java\Docgen\src\main\java\com\example\docgen\config\security\JwtAuthenticationFilter.java
-G:\Meu Drive\Projetos Java\Docgen\src\main\java\com\example\docgen\config\security\JwtSecurityExceptionHandler.java
+G:\Meu Drive\Projetos Java\Docgen\src\main\java\com\example\docgen\config\security\CustomUserDetails.java
+G:\Meu Drive\Projetos Java\Docgen\src\main\java\com\example\docgen\config\security\jwt\JwtAccessDeniedHandler.java
+G:\Meu Drive\Projetos Java\Docgen\src\main\java\com\example\docgen\config\security\jwt\JwtAuthenticationEntryPoint.java
+G:\Meu Drive\Projetos Java\Docgen\src\main\java\com\example\docgen\config\security\jwt\JwtAuthenticationFilter.java
+G:\Meu Drive\Projetos Java\Docgen\src\main\java\com\example\docgen\config\security\jwt\JwtSecurityExceptionHandler.java
 G:\Meu Drive\Projetos Java\Docgen\src\main\java\com\example\docgen\config\security\SecurityConfig.java
 G:\Meu Drive\Projetos Java\Docgen\src\main\java\com\example\docgen\config\TestConfig.java
 G:\Meu Drive\Projetos Java\Docgen\src\main\java\com\example\docgen\controllers\AuthController.java
@@ -14,6 +15,7 @@ G:\Meu Drive\Projetos Java\Docgen\src\main\java\com\example\docgen\DocgenApplica
 G:\Meu Drive\Projetos Java\Docgen\src\main\java\com\example\docgen\dto\LoginRequestDTO.java
 G:\Meu Drive\Projetos Java\Docgen\src\main\java\com\example\docgen\dto\user\BatchUserInsertResponseDTO.java
 G:\Meu Drive\Projetos Java\Docgen\src\main\java\com\example\docgen\dto\user\FailedUserDTO.java
+G:\Meu Drive\Projetos Java\Docgen\src\main\java\com\example\docgen\dto\user\PasswordResetRequestDTO.java
 G:\Meu Drive\Projetos Java\Docgen\src\main\java\com\example\docgen\dto\user\UserMapperDTO.java
 G:\Meu Drive\Projetos Java\Docgen\src\main\java\com\example\docgen\dto\user\UserRequestDTO.java
 G:\Meu Drive\Projetos Java\Docgen\src\main\java\com\example\docgen\dto\user\UserResponseDTO.java

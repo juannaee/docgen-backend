@@ -2,6 +2,7 @@ package com.example.docgen.config;
 
 import java.time.LocalDate;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
@@ -16,36 +17,37 @@ import com.example.docgen.services.UserService;
 
 @Configuration
 @Profile("test")
+@RequiredArgsConstructor
 public class TestConfig {
 
-	@Autowired
-	UserRepository userRepository;
-	@Autowired
-	PasswordEncoder passwordEncoder;
 
-	@Bean
-	CommandLineRunner run(UserService userService) {
-		return args -> {
+    private final UserRepository userRepository;
 
-			if (userRepository.findByEmail("admin@admin").isEmpty()) {
-				User user = new User();
-				user.setName("Administrador");
-				user.setEmail("admin@admin");
-				user.setPassword(passwordEncoder.encode("271114")); // senha criptografada
-				user.setCpf("10488775400"); // CPF válido
-				user.setPhone("81996272911");
-				user.setBirthDate(LocalDate.of(2001, 11, 27));
-				user.setRole(UserRole.ADMIN);
-				user.setPasswordResetRequired(false);
+    private final PasswordEncoder passwordEncoder;
 
-				userRepository.save(user);
-				System.out.println("Usuário admin criado com sucesso.");
+    @Bean
+    CommandLineRunner run(UserService userService) {
+        return args -> {
 
-			}
+            if (userRepository.findByEmail("admin@admin").isEmpty()) {
+                User user = new User();
+                user.setName("Administrador");
+                user.setEmail("admin@admin");
+                user.setPassword(passwordEncoder.encode("271114")); // senha criptografada
+                user.setCpf("10488775400"); // CPF válido
+                user.setPhone("81996272911");
+                user.setBirthDate(LocalDate.of(2001, 11, 27));
+                user.setRole(UserRole.ADMIN);
+                user.setPasswordResetRequired(false);
 
-		};
+                userRepository.save(user);
+                System.out.println("Usuário admin criado com sucesso.");
 
-	}
-	
+            }
+
+        };
+
+    }
+
 
 }

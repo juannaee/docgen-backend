@@ -2,6 +2,7 @@ package com.example.docgen.controllers;
 
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -34,14 +35,6 @@ public class AuthController {
 	private final AuthenticationManager authenticationManager;
 	private final JwtService jwtService;
 	private final UserService userService;
-
-	public AuthController(AuthenticationManager authenticationManager, JwtService jwtService, TestConfig testConfig,
-			UserService userService) {
-		this.authenticationManager = authenticationManager;
-		this.jwtService = jwtService;
-		this.testConfig = testConfig;
-		this.userService = userService;
-	}
 
 	@PostMapping("/login")
 	public ResponseEntity<?> login(@RequestBody @Valid LoginRequestDTO request) {

@@ -1,29 +1,15 @@
 package com.example.docgen.dto.user;
 
+
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
+@Data
 public class FailedUserDTO {
 
-	private String email;
-	private String reason;
+    private String email;
+    private String reason;
 
-	public FailedUserDTO(String email, String reason) {
-		this.email = email;
-		this.reason = reason;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getReason() {
-		return reason;
-	}
-
-	public void setReason(String reason) {
-		this.reason = reason;
-	}
 
 }

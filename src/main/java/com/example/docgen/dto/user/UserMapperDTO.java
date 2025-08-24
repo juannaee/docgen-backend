@@ -6,6 +6,8 @@ import java.util.stream.Collectors;
 import com.example.docgen.entities.User;
 import com.example.docgen.entities.enums.UserRole;
 
+
+
 public class UserMapperDTO {
 
 	// Converte uma requisição em entidade
