@@ -31,6 +31,7 @@ public class TestConfig {
 
             if (userRepository.findByEmail("admin@admin").isEmpty()) {
                 User user = new User();
+
                 user.setName("Administrador");
                 user.setEmail("admin@admin");
                 user.setPassword(passwordEncoder.encode("271114")); // senha criptografada

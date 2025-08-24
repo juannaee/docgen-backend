@@ -12,7 +12,7 @@ public class UserMapperDTO {
 
 	// Converte uma requisição em entidade
 	public static User toEntity(UserRequestDTO dto) {
-		return new User(null, dto.getName(), dto.getEmail(), dto.getPassword(), dto.getBirthDate(), dto.getPhone(),
+		return new User(null,dto.getName(), dto.getEmail(), dto.getPassword(), dto.getBirthDate(), dto.getPhone(),
 				dto.getCpf(), UserRole.USER, false);
 	}
 

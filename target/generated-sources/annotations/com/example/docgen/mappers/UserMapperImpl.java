@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-08-24T10:39:02-0300",
+    date = "2025-08-24T15:51:05-0300",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 21.0.8 (Oracle Corporation)"
 )
 @Component
@@ -23,6 +23,13 @@ public class UserMapperImpl implements UserMapper {
         }
 
         User user = new User();
+
+        user.setName( dto.getName() );
+        user.setEmail( dto.getEmail() );
+        user.setPassword( dto.getPassword() );
+        user.setBirthDate( dto.getBirthDate() );
+        user.setPhone( dto.getPhone() );
+        user.setCpf( dto.getCpf() );
 
         user.setRole( com.example.docgen.entities.enums.UserRole.USER );
 
@@ -38,6 +45,15 @@ public class UserMapperImpl implements UserMapper {
         }
 
         UserResponseDTO userResponseDTO = new UserResponseDTO();
+
+        userResponseDTO.setId( user.getId() );
+        userResponseDTO.setName( user.getName() );
+        userResponseDTO.setEmail( user.getEmail() );
+        userResponseDTO.setPhone( user.getPhone() );
+        if ( user.getRole() != null ) {
+            userResponseDTO.setRole( user.getRole().name() );
+        }
+        userResponseDTO.setPasswordResetRequired( user.getPasswordResetRequired() );
 
         return userResponseDTO;
     }
