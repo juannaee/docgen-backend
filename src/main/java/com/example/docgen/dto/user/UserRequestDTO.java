@@ -19,11 +19,7 @@ public class UserRequestDTO {
 
     @NotBlank(message = "Seu email é obrigatório")
     private String email;
-
-    @NotBlank(message = "Sua senha é obrigatório")
-    @Size(min = 8, message = "Sua senha deve ter no minimo 6 caracteres")
-    private String password;
-
+    
     @NotNull(message = "Sua idade é obrigatória")
     @Past(message = "A data de nascimento deve ser no passado")
     @JsonFormat(pattern = "dd/MM/yyyy")

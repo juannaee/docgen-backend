@@ -2,6 +2,8 @@ package com.example.docgen.admin;
 
 import javax.sql.DataSource;
 
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
@@ -9,16 +11,15 @@ import com.example.docgen.repositories.UserRepository;
 
 @Service
 @Profile("test")
+@RequiredArgsConstructor
+@Data
 public class DataBaseMaintenanceService {
 
 	private final String token = "DELETE_TEST_DATA";
 	private final UserRepository userRepository;
 	private final DataSource dataSource;
 
-	public DataBaseMaintenanceService(UserRepository userRepository, DataSource dataSource) {
-		this.userRepository = userRepository;
-		this.dataSource = dataSource;
-	}
+
 
 	public void deleteAllUser(String token) {
 		if (!token.equals(token)) {
@@ -43,8 +44,6 @@ public class DataBaseMaintenanceService {
 		}
 	}
 
-	public String getToken() {
-		return token;
-	}
+
 
 }
